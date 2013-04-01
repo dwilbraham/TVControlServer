@@ -15,11 +15,18 @@
 # Auto* temp files
 /aclocal.m4
 /autom4te.cache/
-/config.h.in~
 /configure
 /depcomp
 /install-sh
 /missing
+/config.h
+/config.log
+/config.status
+/stamp-h1
+/tv_control_server
 
 *.in
+.deps/
+.dirstamp
+Makefile
 

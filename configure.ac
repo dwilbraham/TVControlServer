@@ -14,6 +14,8 @@ if test "x$use_debug" = "xyes"; then
   CXXFLAGS="$CXXFLAGS -ggdb"
 fi
 
+PKG_CHECK_MODULES([DEPS], [libcec >= 2:1:0])
+
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AC_CONFIG_FILES([Makefile])
