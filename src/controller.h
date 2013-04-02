@@ -12,10 +12,12 @@ public:
 	Controller();
 	~Controller();
 
-//	int cecLogMessage(void *cbParam, const cec_log_message message) {return 0;}
-//	int cecKeyPress(void *cbParam, const cec_keypress UNUSED(key)) {return 0;}
-//	int cecCommand(void *cbParam, const cec_command UNUSED(command)) {return 0;}
-//	int cecAlert(void *cbParam, const libcec_alert type, const libcec_parameter UNUSED(param)) {return 0;}
+	bool powerOnTV();
+
+	static int cecLogMessage(void *cbParam, const CEC::cec_log_message message);
+	static int cecKeyPress(void *cbParam, const CEC::cec_keypress key) {return 0;}
+	static int cecCommand(void *cbParam, const CEC::cec_command command) {return 0;}
+	static int cecAlert(void *cbParam, const CEC::libcec_alert type, const CEC::libcec_parameter param) ;
 
 private:
 	CEC::libcec_configuration cecConfig_;

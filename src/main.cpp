@@ -3,6 +3,7 @@
 #endif
 
 #include <iostream>
+#include <unistd.h>
 
 #include "controller.h"
 
@@ -12,4 +13,6 @@ int main(int argv, char ** argc)
 {
 	std::cout << "Hello world" << std::endl;
 	Controller controller = Controller();
+	controller.powerOnTV();
+	sleep(10);
 }
