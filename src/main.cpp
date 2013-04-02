@@ -3,7 +3,12 @@
 #endif
 
 #include <iostream>
+
 #include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "controller.h"
 
@@ -11,8 +16,40 @@ using namespace TVControlServer;
 
 int main(int argv, char ** argc)
 {
-	std::cout << "Hello world" << std::endl;
-	Controller controller = Controller();
-	controller.powerOnTV();
-	sleep(10);
+//	Controller controller = Controller();
+	static const int bufferLen = 100;
+	char readBuffer[bufferLen];
+
+	struct sockaddr_in addr;
+	struct sockaddr_in client;
+	socklen_t addrlen;
+	ssize_t n;
+	int sockfd, commfd;
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	memset(&addr, 0, sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(22222);
+	addr.sin_addr.s_addr = INADDR_ANY;
+	bind(sockfd, (struct sockaddr*)&addr, sizeof(addr));
+	listen(sockfd, 5);
+
+	memset(&client, 0, sizeof(client));
+	addrlen = sizeof(client);
+	commfd = accept(sockfd, (struct sockaddr*)&client, &addrlen);
+	if(commfd < 0)
+	{
+		perror("accept");
+		return(1);
+	}
+
+	close(sockfd);
+	char* welcomeMessage = "Hello World\n";
+	write(commfd, welcomeMessage, strlen(welcomeMessage));
+	n = read(commfd, readBuffer, bufferLen);
+	readBuffer[n] = '\0';
+
+	std::cout << "readBuffer = \"" << readBuffer << "\"" << std::endl;
+	
+//	controller.powerOnTV();
+//	sleep(10);
 }
