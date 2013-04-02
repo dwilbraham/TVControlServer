@@ -14,7 +14,7 @@
 
 using namespace TVControlServer;
 
-int main(int argv, char ** argc)
+int main(int argc, char* argv[])
 {
 //	Controller controller = Controller();
 	static const int bufferLen = 100;
