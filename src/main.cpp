@@ -43,8 +43,10 @@ int main(int argc, char* argv[])
 	}
 
 	close(sockfd);
-	char* welcomeMessage = "Hello World\n";
-	write(commfd, welcomeMessage, strlen(welcomeMessage));
+	std::string welcomeMessage = PACKAGE_STRING;
+	welcomeMessage.push_back('\n');
+	write(commfd, welcomeMessage.c_str(), welcomeMessage.length());
+
 	n = read(commfd, readBuffer, bufferLen);
 	readBuffer[n] = '\0';
 

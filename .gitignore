@@ -25,6 +25,7 @@
 /stamp-h1
 /tv_control_server
 
+*.swp
 *.in
 .deps/
 .dirstamp
