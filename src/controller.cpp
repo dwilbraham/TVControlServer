@@ -63,6 +63,11 @@ bool Controller::powerOnTV()
 	return parser_->PowerOnDevices();
 }
 
+bool Controller::powerOffTV()
+{
+	return parser_->StandbyDevices(CEC::CECDEVICE_TV);
+}
+
 int Controller::cecLogMessage(void *cbParam, const CEC::cec_log_message message)
 {
 	std::cout << "Controller::cecLogMessage: " << message.message << std::endl;

@@ -13,6 +13,7 @@ public:
 	~Controller();
 
 	bool powerOnTV();
+	bool powerOffTV();
 
 	static int cecLogMessage(void *cbParam, const CEC::cec_log_message message);
 	static int cecKeyPress(void *cbParam, const CEC::cec_keypress key) {return 0;}
