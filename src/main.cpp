@@ -19,12 +19,20 @@ size_t readLine(int sock, std::string& line, size_t maxlen)
 	int n, rc;
 	char c;
 
-	for (n = 1; n < maxlen; n++) {
+	for (n = 1; n < maxlen; ++n)
+	{
 		if ((rc = read(sock, &c, 1)) == 1)
 		{
 			if (c == '\r' || c == '\n')
-				break;
-			line.push_back(c);
+			{
+				--n;
+				if (n > 0)
+					break;
+			}
+			else
+			{
+				line.push_back(c);
+			}
 		}
 		else if (rc == 0)
 		{
@@ -47,7 +55,6 @@ int main(int argc, char* argv[])
 	struct sockaddr_in addr;
 	struct sockaddr_in client;
 	socklen_t addrlen;
-	ssize_t n;
 	int sockfd, commfd;
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	memset(&addr, 0, sizeof(addr));
@@ -72,28 +79,33 @@ int main(int argc, char* argv[])
 	write(commfd, welcomeMessage.c_str(), welcomeMessage.length());
 
 	int i;
-	for (i = 1; i < 5; i++)
+	for (i = 1; i < 10; i++)
 	{
 		std::string line;
-		n = readLine(commfd, line, bufferLen);
-		std::cout << "line = " << line << std::endl;
-		if(line == "on")
+		ssize_t lineLen;
+		lineLen = readLine(commfd, line, bufferLen);
+		if (lineLen > 0)
 		{
-			controller.powerOnTV();
-			std::string msg = "TV is now on\n";
-			write(commfd, msg.c_str(), msg.length());
-		}
-		else if(line == "off")
-		{
-			controller.powerOffTV();
-			std::string msg = "TV is now off\n";
-			write(commfd, msg.c_str(), msg.length());
-		}
-		else
-		{
-			std::string msg = "UNKNOWN COMMAND = " + line + '\n';
-			write(commfd, msg.c_str(), msg.length());
-			write(2, msg.c_str(), msg.length());
+			std::cout << "lineLen = " << lineLen << std::endl;
+			std::cout << "line = " << line << std::endl;
+			if(line == "on")
+			{
+				controller.powerOnTV();
+				std::string msg = "TV is now on\n";
+				write(commfd, msg.c_str(), msg.length());
+			}
+			else if(line == "off")
+			{
+				controller.powerOffTV();
+				std::string msg = "TV is now off\n";
+				write(commfd, msg.c_str(), msg.length());
+			}
+			else
+			{
+				std::string msg = "UNKNOWN COMMAND = " + line + '\n';
+				write(commfd, msg.c_str(), msg.length());
+				write(2, msg.c_str(), msg.length());
+			}
 		}
 	}
 
