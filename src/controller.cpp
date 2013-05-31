@@ -6,7 +6,7 @@
 using namespace TVControlServer;
 
 Controller::Controller() :
-	 cecConfig_()
+	cecConfig_()
 	,cecCallbacks_()
 	,parser_(0)
 {
@@ -78,11 +78,11 @@ int Controller::cecAlert(void *cbParam, const CEC::libcec_alert type, const CEC:
 {
 	switch (type)
 	{
-	case CEC::CEC_ALERT_CONNECTION_LOST:
-		std::cout << "Controller::cecAlert connection lost" << std::endl;
-		break;
-	default:
-		break;
+		case CEC::CEC_ALERT_CONNECTION_LOST:
+			std::cout << "Controller::cecAlert connection lost" << std::endl;
+			break;
+		default:
+			break;
 	}
 	return 1;
 }
